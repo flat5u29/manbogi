@@ -67,7 +67,7 @@ public class StepCheckService extends Service implements SensorEventListener {
                 speed = Math.abs(x + y + z - lastX - lastY - lastZ) / gabOfTime * 10000;
 
                 if (speed > SHAKE_THRESHOLD) {
-                    Intent myFilteredResponse = new Intent("make.a.yong.manbo");
+                    Intent myFilteredResponse = new Intent("com.example.manbogi");
 
                     StepValue.Step = count++;
 

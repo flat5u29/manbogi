@@ -38,16 +38,16 @@ public class MainActivity extends Activity {
         playingBtn = (Button) findViewById(R.id.btnStopService);
         exchange = (Button) findViewById(R.id.exchange);
 
-        playingBtn.setOnClickListener(new View.OnClickListener() {
+       // playingBtn.setOnClickListener(new View.OnClickListener() {
 
-            @Override
-            public void onClick(View v) {
+
+            //public void onClick(View v) {
 
                 if (flag) {
                     // TODO Auto-generated method stub
                     try {
 
-                        IntentFilter mainFilter = new IntentFilter("make.a.yong.manbo");
+                        IntentFilter mainFilter = new IntentFilter("com.example.manbogi");
 
                         registerReceiver(receiver, mainFilter);
                         startService(manboService);
@@ -77,8 +77,8 @@ public class MainActivity extends Activity {
 
                 flag = !flag;
 
-            }
-        });
+           // }
+        //});
 
         exchange.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -97,7 +97,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("PlayignReceiver", "IN");
+            Log.i("PlayingReceiver", "IN");
             serviceData = intent.getStringExtra("stepService");
             countText.setText("걸음 : " + serviceData);
             stepCount = Integer.parseInt(serviceData);

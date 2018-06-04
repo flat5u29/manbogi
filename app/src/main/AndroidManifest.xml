@@ -16,8 +16,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".StepCheckService" />
-        <activity android:name=".StepValue"></activity>
+        <service android:name=".StepCheckService" >
+            <intent-filter>
+                <action android:name="app.manbogi.Service"/>
+
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>
