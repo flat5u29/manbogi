@@ -38,55 +38,52 @@ public class MainActivity extends Activity {
         playingBtn = (Button) findViewById(R.id.btnStopService);
         exchange = (Button) findViewById(R.id.exchange);
 
-       // playingBtn.setOnClickListener(new View.OnClickListener() {
 
 
-            //public void onClick(View v) {
 
-                if (flag) {
-                    // TODO Auto-generated method stub
-                    try {
+        // TODO Auto-generated method stub
+        try {
 
-                        IntentFilter mainFilter = new IntentFilter("com.example.manbogi");
+            IntentFilter mainFilter = new IntentFilter("com.example.manbogi");
 
-                        registerReceiver(receiver, mainFilter);
-                        startService(manboService);
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                        Toast.makeText(getApplicationContext(), e.getMessage(),
-                                Toast.LENGTH_LONG).show();
-                    }
-                } else {
+            registerReceiver(receiver, mainFilter);
+            startService(manboService);
+        } catch (Exception e) {
+            // TODO: handle exception
+            Toast.makeText(getApplicationContext(), e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+        }
 
-                    playingBtn.setText("Go !!");
 
-                    // TODO Auto-generated method stub
-                    try {
+         playingBtn.setOnClickListener(new View.OnClickListener() {
 
-                        unregisterReceiver(receiver);
 
-                        stopService(manboService);
+        public void onClick(View v) {
+        // TODO Auto-generated method stub
+        try {
 
-                        // txtMsg.setText("After stoping Service:\n"+service.getClassName());
-                    } catch (Exception e) {
-                        // TODO: handle exception
-                        Toast.makeText(getApplicationContext(), e.getMessage(),
-                                Toast.LENGTH_LONG).show();
-                    }
-                }
+            unregisterReceiver(receiver);
 
-                flag = !flag;
+            stopService(manboService);
 
-           // }
-        //});
+            // txtMsg.setText("After stoping Service:\n"+service.getClassName());
+        } catch (Exception e) {
+            // TODO: handle exception
+            Toast.makeText(getApplicationContext(), e.getMessage(),
+                    Toast.LENGTH_LONG).show();
+        }
+
+
+         }
+        });
 
         exchange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                coin = coin+stepCount;
+                coin = coin + stepCount;
                 stepCount = 0;
-                cointxt.setText("코인 : "+coin);
-                countText.setText("걸음 : "+stepCount);
+                cointxt.setText("코인 : " + coin);
+                countText.setText("걸음 : " + stepCount);
                 StepValue.Step = 0;
             }
         });

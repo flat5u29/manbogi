@@ -67,7 +67,7 @@
         android:layout_marginBottom="59dp"
         android:layout_marginEnd="15dp"
         android:layout_marginRight="15dp"
-        android:text="PlayGame"
+        android:text="Stop"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
 
