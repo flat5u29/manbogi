@@ -1,5 +1,7 @@
 package com.example.gwer.manbogi;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.Activity;
@@ -24,7 +26,7 @@ public class MainActivity extends Activity {
 
     boolean flag = true;
     TextView countText, cointxt;
-    Button playingBtn, exchange, menu;
+    Button stopBtn, exchange, menu;
 
     int stepCount, coin;
 
@@ -37,7 +39,7 @@ public class MainActivity extends Activity {
 
         cointxt = (TextView) findViewById(R.id.cointxt);
         countText = (TextView) findViewById(R.id.stepText);
-        playingBtn = (Button) findViewById(R.id.btnStopService);
+        stopBtn = (Button) findViewById(R.id.btnStopService);
         exchange = (Button) findViewById(R.id.exchange);
         menu = (Button) findViewById(R.id.menu);
 
@@ -57,21 +59,21 @@ public class MainActivity extends Activity {
 
                         Intent intent = new Intent();
 
-                        switch (id){
-                            case R.id.menu1 : // 스탯
+                        switch (id) {
+                            case R.id.menu1: // 스탯
                                 break;
 
-                            case R.id.menu2 : // 아이템창
+                            case R.id.menu2: // 아이템창
                                 break;
 
-                            case R.id.menu3 : // 상점
+                            case R.id.menu3: // 상점
                                 intent = new Intent(MainActivity.this, Store.class);
                                 break;
 
-                            case R.id.menu4 : // 통계
+                            case R.id.menu4: // 통계
                                 break;
 
-                            case R.id.menu5 : // 옵션
+                            case R.id.menu5: // 옵션
                                 break;
                         }
                         startActivity(intent);
@@ -82,7 +84,7 @@ public class MainActivity extends Activity {
         });
 
 
-        // TODO Auto-generated method stub
+        // 서비스 시작
         try {
 
             IntentFilter mainFilter = new IntentFilter("com.example.manbogi");
@@ -96,26 +98,34 @@ public class MainActivity extends Activity {
         }
 
 
-         playingBtn.setOnClickListener(new View.OnClickListener() {
+        //stop버튼 누르면 서비스 종료
+       stopBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                // TODO Auto-generated method stub
+                try {
 
 
-        public void onClick(View v) {
-        // TODO Auto-generated method stub
-        try {
 
-            unregisterReceiver(receiver);
+                    stopService(manboService);
+                    if(!countText.getText().equals("걸음 : 0")){ //걸음수 0이 아닐 때
+                        AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                        builder.setMessage("환전하지 않은 걸음이 있습니다.");
+                        builder.setTitle("알림");
+                        builder.setPositiveButton("확인",null);
+                        builder.show();
+                    }
+                    else
+                        unregisterReceiver(receiver);
 
-            stopService(manboService);
-
-            // txtMsg.setText("After stoping Service:\n"+service.getClassName());
-        } catch (Exception e) {
-            // TODO: handle exception
-            Toast.makeText(getApplicationContext(), e.getMessage(),
-                    Toast.LENGTH_LONG).show();
-        }
+                    // txtMsg.setText("After stoping Service:\n"+service.getClassName());
+                } catch (Exception e) {
+                    // TODO: handle exception
+                    Toast.makeText(getApplicationContext(), e.getMessage(),
+                            Toast.LENGTH_LONG).show();
+                }
 
 
-         }
+            }
         });
 
         exchange.setOnClickListener(new View.OnClickListener() {
@@ -135,7 +145,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            stepCount+=intent.getIntExtra("stepService",0);
+            stepCount += intent.getIntExtra("stepService", 0);
             countText.setText("걸음 : " + stepCount);
 
 
