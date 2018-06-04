@@ -23,7 +23,6 @@ public class MainActivity extends Activity {
     BroadcastReceiver receiver;
 
     boolean flag = true;
-    String serviceData;
     TextView countText, cointxt;
     Button playingBtn, exchange, menu;
 
@@ -126,7 +125,7 @@ public class MainActivity extends Activity {
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
                 countText.setText("걸음 : " + stepCount);
-                StepValue.Step = 0;
+
             }
         });
 
@@ -136,8 +135,6 @@ public class MainActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            Log.i("PlayingReceiver", "IN");
-           // serviceData = intent.getStringExtra("stepService");
             stepCount+=intent.getIntExtra("stepService",0);
             countText.setText("걸음 : " + stepCount);
 

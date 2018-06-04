@@ -13,7 +13,7 @@ import android.util.Log;
 
 public class StepCheckService extends Service implements SensorEventListener {
 
-    int count = StepValue.Step;
+
     private long lastTime;
     private float speed;
     private float lastX;
@@ -48,7 +48,6 @@ public class StepCheckService extends Service implements SensorEventListener {
         super.onDestroy();
         if (sensorManager != null) {
             sensorManager.unregisterListener(this);
-            StepValue.Step = 0;
         } // end of if
     } // end of onDestroy
 
@@ -70,9 +69,6 @@ public class StepCheckService extends Service implements SensorEventListener {
                 if (speed > SHAKE_THRESHOLD) {
                     Intent myFilteredResponse = new Intent("com.example.manbogi");
 
-                   // StepValue.Step = count++;
-
-                   // String msg = StepValue.Step / 2 + "";
                     myFilteredResponse.putExtra("stepService", 1);
 
                     sendBroadcast(myFilteredResponse);
