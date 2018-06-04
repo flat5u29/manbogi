@@ -6,5 +6,6 @@ import android.os.Bundle;
 public class StepValue {
 
     public static int Step = 0;
+
 }
 
