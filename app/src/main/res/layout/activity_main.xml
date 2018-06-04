@@ -4,14 +4,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".MainActivity"
-    tools:layout_editor_absoluteY="81dp"
-    android:background="@drawable/background">
+    tools:layout_editor_absoluteY="81dp">
 
     <ImageView
         android:id="@+id/imageView3"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -50,11 +52,17 @@
         app:layout_constraintStart_toEndOf="@+id/imageView2" />
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="194dp"
-        android:layout_height="121dp"
-        tools:layout_editor_absoluteX="181dp"
-        tools:layout_editor_absoluteY="382dp"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="9dp"
+        android:layout_marginRight="9dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView3">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -63,13 +71,14 @@
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/setting"
-                android:background="#ffffff"/>
+                android:background="#ffffff"
+                android:src="@drawable/setting" />
+
             <ImageButton
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/items"
-                android:background="#ffffff"/>
+                android:background="#ffffff"
+                android:src="@drawable/items" />
 
         </LinearLayout>
 
