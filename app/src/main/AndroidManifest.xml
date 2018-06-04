@@ -16,6 +16,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".StepCheckService" />
+        <activity android:name=".StepValue"></activity>
     </application>
 
 </manifest>
