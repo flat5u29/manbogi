@@ -7,6 +7,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.os.Binder;
 import android.os.IBinder;
 import android.util.Log;
 
@@ -69,10 +70,10 @@ public class StepCheckService extends Service implements SensorEventListener {
                 if (speed > SHAKE_THRESHOLD) {
                     Intent myFilteredResponse = new Intent("com.example.manbogi");
 
-                    StepValue.Step = count++;
+                   // StepValue.Step = count++;
 
-                    String msg = StepValue.Step / 2 + "";
-                    myFilteredResponse.putExtra("stepService", msg);
+                   // String msg = StepValue.Step / 2 + "";
+                    myFilteredResponse.putExtra("stepService", 1);
 
                     sendBroadcast(myFilteredResponse);
                 } // end of if

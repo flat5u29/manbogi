@@ -137,9 +137,10 @@ public class MainActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             Log.i("PlayingReceiver", "IN");
-            serviceData = intent.getStringExtra("stepService");
-            countText.setText("걸음 : " + serviceData);
-            stepCount = Integer.parseInt(serviceData);
+           // serviceData = intent.getStringExtra("stepService");
+            stepCount+=intent.getIntExtra("stepService",0);
+            countText.setText("걸음 : " + stepCount);
+
 
         }
     }
