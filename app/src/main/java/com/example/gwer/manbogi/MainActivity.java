@@ -30,6 +30,7 @@ import java.util.Date;
 
 public class MainActivity extends Activity {
 
+    private long backKeyPressedTime = 0;
     Intent manboService;
     BroadcastReceiver receiver;
 
@@ -38,6 +39,22 @@ public class MainActivity extends Activity {
     Button stopBtn, exchange, menu;
 
     static int stepCount, coin, totalStepCount;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+        }
+
+      //  super.onBackPressed();
+
+
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +74,7 @@ public class MainActivity extends Activity {
         exchange = (Button) findViewById(R.id.exchange);
         menu = (Button) findViewById(R.id.menu);
 
-        cointxt.setText("코인 : "+coin);
+        cointxt.setText("코인 : " + coin);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -122,16 +139,14 @@ public class MainActivity extends Activity {
                 try {
 
 
-
                     stopService(manboService);
-                    if(!countText.getText().equals("걸음 : 0")){ //걸음수 0이 아닐 때
-                        AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                    if (!countText.getText().equals("걸음 : 0")) { //걸음수 0이 아닐 때
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setMessage("환전하지 않은 걸음이 있습니다.");
                         builder.setTitle("알림");
-                        builder.setPositiveButton("확인",null);
+                        builder.setPositiveButton("확인", null);
                         builder.show();
-                    }
-                    else
+                    } else
                         unregisterReceiver(receiver);
 
                     // txtMsg.setText("After stoping Service:\n"+service.getClassName());
@@ -152,7 +167,7 @@ public class MainActivity extends Activity {
         exchange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sp.play(exchangeSound, 1,1,0,0,1f);
+                sp.play(exchangeSound, 1, 1, 0, 0, 1f);
                 coin = coin + stepCount;
 
                 long now = System.currentTimeMillis();

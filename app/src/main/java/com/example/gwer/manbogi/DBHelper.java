@@ -34,8 +34,8 @@ import android.database.sqlite.SQLiteOpenHelper;
             // 읽고 쓰기가 가능하게 DB 열기
             SQLiteDatabase db = getWritableDatabase();
             // DB에 입력한 값으로 행 추가
-            db.execSQL("INSERT INTO MANBORECORD VALUES('" + days + "', " + step + ", " + coin + ") " );
-                    //"ON DUPLICATE KEY UPDATE coin = "+ coin +" , step =" +step+";");
+            db.execSQL("INSERT INTO MANBORECORD VALUES('" + days + "', " + step + ", " + coin + ") "+
+                    "ON DUPLICATE KEY UPDATE coin = "+ coin +" , step =" +step+";");
             //db.execSQL("DROP TABLE MANBORECORD;");
             db.close();
         }
@@ -63,12 +63,10 @@ import android.database.sqlite.SQLiteOpenHelper;
             Cursor cursor = db.rawQuery("SELECT * FROM MANBORECORD", null);
             while (cursor.moveToNext()) {
                 result += cursor.getString(0)
-                        + " : 날짜 "
-                        + cursor.getString(1)
                         + " /걸음수 : "
-                        + cursor.getInt(2)
+                        + cursor.getInt(1)
                         + " /코인 : "
-                        + cursor.getString(3)
+                        + cursor.getString(2)
                         + "원\n";
             }
 
