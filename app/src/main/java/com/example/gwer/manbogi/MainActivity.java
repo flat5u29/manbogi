@@ -2,6 +2,8 @@ package com.example.gwer.manbogi;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.media.AudioManager;
+import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,6 +14,7 @@ import android.content.IntentFilter;
 import android.util.Log;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.SoundEffectConstants;
 import android.view.View;
 import android.widget.Button;
 import android.widget.PopupMenu;
@@ -34,11 +37,13 @@ public class MainActivity extends Activity {
     TextView countText, cointxt;
     Button stopBtn, exchange, menu;
 
-    int stepCount, coin, totalStepCount;
+    static int stepCount, coin, totalStepCount;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        final SoundPool sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         manboService = new Intent(this, StepCheckService.class);
         receiver = new PlayingReceiver();
@@ -106,7 +111,7 @@ public class MainActivity extends Activity {
 
 
         //stop버튼 누르면 서비스 종료
-       stopBtn.setOnClickListener(new View.OnClickListener() {
+        stopBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // TODO Auto-generated method stub
                 try {
@@ -135,9 +140,14 @@ public class MainActivity extends Activity {
             }
         });
 
+        // 환전 소리
+        final int exchangeSound = sp.load(this, R.raw.coin01, 1);
+
+        exchange.setSoundEffectsEnabled(false);
         exchange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                sp.play(exchangeSound, 1,1,0,0,1f);
                 coin = coin + stepCount;
 
                 long now = System.currentTimeMillis();
