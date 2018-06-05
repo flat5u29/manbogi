@@ -38,10 +38,10 @@ import android.database.sqlite.SQLiteOpenHelper;
             db.close();
         }
 
-        public void update(String days, int coin) {
+        public void update(String days, int step, int coin) {
             SQLiteDatabase db = getWritableDatabase();
             // 입력한 항목과 일치하는 행의 가격 정보 수정
-            db.execSQL("UPDATE MANBORECORD SET coin=" + coin + " WHERE days='" + days + "';");
+            db.execSQL("UPDATE MANBORECORD SET coin=" + coin + ",step="+step+" WHERE days='" + days + "';");
             db.close();
         }
 

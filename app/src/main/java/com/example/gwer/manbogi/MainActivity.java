@@ -57,6 +57,8 @@ public class MainActivity extends Activity {
         exchange = (Button) findViewById(R.id.exchange);
         menu = (Button) findViewById(R.id.menu);
 
+        cointxt.setText("코인 : "+coin);
+
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,7 +162,7 @@ public class MainActivity extends Activity {
                 String getTime = sdf.format(dat);
 
 
-                dbHelper.insert(getTime, stepCount, coin);
+                dbHelper.update(getTime, stepCount, coin);
 
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
