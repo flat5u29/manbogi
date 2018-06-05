@@ -18,9 +18,9 @@ import android.database.sqlite.SQLiteOpenHelper;
         @Override
         public void onCreate(SQLiteDatabase db) {
             // 새로운 테이블 생성
-        /* 이름은 MANBORECORD이고, 자동으로 값이 증가하는 _id 정수형 기본키 컬럼과
+        /* 이름은 MANBORECORD이고,
         days 문자열 컬럼, step 정수형 컬럼, coin 정수형 컬럼으로 구성된 테이블을 생성. */
-            db.execSQL("CREATE TABLE MANBORECORD (_id INTEGER PRIMARY KEY AUTOINCREMENT, days TEXT, step INTEGER, coin INTEGER);");
+            db.execSQL("CREATE TABLE MANBORECORD (days TEXT PRIMARY KEY, step INTEGER, coin INTEGER);");
 
         }
 
@@ -34,7 +34,9 @@ import android.database.sqlite.SQLiteOpenHelper;
             // 읽고 쓰기가 가능하게 DB 열기
             SQLiteDatabase db = getWritableDatabase();
             // DB에 입력한 값으로 행 추가
-            db.execSQL("INSERT INTO MANBORECORD VALUES(null, '" + days + "', " + step + ", '" + coin + "');");
+            db.execSQL("INSERT INTO MANBORECORD VALUES('" + days + "', " + step + ", " + coin + ") " );
+                    //"ON DUPLICATE KEY UPDATE coin = "+ coin +" , step =" +step+";");
+            //db.execSQL("DROP TABLE MANBORECORD;");
             db.close();
         }
 

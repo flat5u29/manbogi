@@ -162,7 +162,7 @@ public class MainActivity extends Activity {
                 String getTime = sdf.format(dat);
 
 
-                dbHelper.update(getTime, stepCount, coin);
+                dbHelper.insert(getTime, stepCount, coin);
 
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
