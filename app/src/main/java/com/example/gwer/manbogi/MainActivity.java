@@ -43,13 +43,16 @@ public class MainActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        final DBHelper dbHelper
+                = new DBHelper(getApplicationContext(), "MANBORECORD.db", null, 1);
+
         final SoundPool sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         manboService = new Intent(this, StepCheckService.class);
         receiver = new PlayingReceiver();
 
         cointxt = (TextView) findViewById(R.id.cointxt);
-        countText = (TextView) findViewById(R.id.stepText);
+        countText = (TextView) findViewById(R.id.steptxt);
         stopBtn = (Button) findViewById(R.id.btnStopService);
         exchange = (Button) findViewById(R.id.exchange);
         menu = (Button) findViewById(R.id.menu);
@@ -156,25 +159,9 @@ public class MainActivity extends Activity {
                 SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
                 String getTime = sdf.format(dat);
 
-                try{
-//                    File files = new File("");
-//                    //파일 유무를 확인합니다.
-//                    if(files.exists()==true) {
-//                    //파일이 있을시
-//                        FileOutputStream fos = openFileOutput("data.txt", Context.MODE_APPEND);
-//                        String text = getTime+totalStepCount;
-//                        fos.write(text.getBytes());
-//                        fos.close();
-//                    } else {
-                    //파일이 없을시
-                        FileOutputStream fos = openFileOutput("data.txt", Context.MODE_PRIVATE);
-                        String text = getTime+totalStepCount;
-                        fos.write(text.getBytes());
-                        fos.close();
-//                    }
-                }catch(IOException e){
 
-                }
+                dbHelper.insert(getTime, stepCount, coin);
+
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
                 countText.setText("걸음 : " + stepCount);

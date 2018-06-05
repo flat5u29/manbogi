@@ -7,6 +7,8 @@ import android.widget.TextView;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.SimpleDateFormat;
 
 public class Data extends AppCompatActivity {
 
@@ -17,26 +19,20 @@ public class Data extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data);
 
+        final DBHelper dbHelper
+                = new DBHelper(getApplicationContext(), "MANBORECORD.db", null, 1);
+
         textView = (TextView)findViewById(R.id.textView);
+
+        long now = System.currentTimeMillis();
+        Date date = new Date(now);
+        // 출력될 포맷 설정
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy년 MM월 dd일");
+
+        textView.setText(dbHelper.getResult());
+
+
     }
 
-    public void load(){
-        try{
-            FileInputStream fis = openFileInput("data.txt");
-            StringBuffer sb = new StringBuffer();
-            byte data[] = new byte[255];
-            int n = 0;
-            while((n=fis.read(data))!=-1){
-                sb.append(new String(data));
-            }
-            textView.setText(sb.toString());
-            fis.close();
-        }catch(IOException e){
 
-        }
-    }
-
-    public void ccc(View view){
-        load();
-    }
 }
