@@ -18,6 +18,12 @@ import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class MainActivity extends Activity {
 
@@ -28,7 +34,7 @@ public class MainActivity extends Activity {
     TextView countText, cointxt;
     Button stopBtn, exchange, menu;
 
-    int stepCount, coin;
+    int stepCount, coin, totalStepCount;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,6 +77,7 @@ public class MainActivity extends Activity {
                                 break;
 
                             case R.id.menu4: // 통계
+                                intent = new Intent(MainActivity.this, Data.class);
                                 break;
 
                             case R.id.menu5: // 옵션
@@ -132,10 +139,35 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 coin = coin + stepCount;
+
+                long now = System.currentTimeMillis();
+
+                Date dat = new Date(now);
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+                String getTime = sdf.format(dat);
+
+                try{
+//                    File files = new File("");
+//                    //파일 유무를 확인합니다.
+//                    if(files.exists()==true) {
+//                    //파일이 있을시
+//                        FileOutputStream fos = openFileOutput("data.txt", Context.MODE_APPEND);
+//                        String text = getTime+totalStepCount;
+//                        fos.write(text.getBytes());
+//                        fos.close();
+//                    } else {
+                    //파일이 없을시
+                        FileOutputStream fos = openFileOutput("data.txt", Context.MODE_PRIVATE);
+                        String text = getTime+totalStepCount;
+                        fos.write(text.getBytes());
+                        fos.close();
+//                    }
+                }catch(IOException e){
+
+                }
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
                 countText.setText("걸음 : " + stepCount);
-
             }
         });
 
@@ -145,6 +177,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
+            totalStepCount += intent.getIntExtra("stepService", 0);
             stepCount += intent.getIntExtra("stepService", 0);
             countText.setText("걸음 : " + stepCount);
 
