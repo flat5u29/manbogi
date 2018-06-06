@@ -171,13 +171,10 @@ public class MainActivity extends Activity {
 
                 // DB에 시간정보를 가지고 와서 현재시간과 같지 않으면 insert함
                 if(!dbHelper.select(getTime).equals(getTime)){
-
                     dbHelper.insert(getTime, stepCount, coin);
                 } else {
-
                     dbHelper.update(getTime, stepCount, coin);
                 }
-
 
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
