@@ -37,6 +37,11 @@ public class MainActivity extends Activity {
     TextView countText, cointxt;
     Button stopBtn, exchange, menu;
 
+    long now = System.currentTimeMillis();
+    Date dat = new Date(now);
+    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+    String getTime = sdf.format(dat);
+
     static int stepCount, coin, totalStepCount;
 
     public void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,12 @@ public class MainActivity extends Activity {
         exchange = (Button) findViewById(R.id.exchange);
         menu = (Button) findViewById(R.id.menu);
 
-        cointxt.setText("코인 : "+coin);
+        // 데이터에서 코인정보 받아옴
+        cointxt.setText("코인 : "+ dbHelper.selectcoin(getTime));
+        coin = dbHelper.selectcoin(getTime); // 코인에 코인정보저장
+
+
+
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,16 +163,21 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 sp.play(exchangeSound, 1,1,0,0,1f);
+
+
                 coin = coin + stepCount;
 
-                long now = System.currentTimeMillis();
+                stepCount = stepCount+ dbHelper.stepCount(getTime);
 
-                Date dat = new Date(now);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-                String getTime = sdf.format(dat);
+                // DB에 시간정보를 가지고 와서 현재시간과 같지 않으면 insert함
+                if(!dbHelper.select(getTime).equals(getTime)){
 
+                    dbHelper.insert(getTime, stepCount, coin);
+                } else {
 
-                dbHelper.insert(getTime, stepCount, coin);
+                    dbHelper.update(getTime, stepCount, coin);
+                }
+
 
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
