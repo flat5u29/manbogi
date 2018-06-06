@@ -30,6 +30,7 @@ import java.util.Date;
 
 public class MainActivity extends Activity {
 
+    private long backKeyPressedTime = 0;
     Intent manboService;
     BroadcastReceiver receiver;
 
@@ -43,6 +44,22 @@ public class MainActivity extends Activity {
     String getTime = sdf.format(dat);
 
     static int stepCount, coin, totalStepCount;
+
+    @Override
+    public void onBackPressed() {
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+        }
+
+      //  super.onBackPressed();
+
+
+    }
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
