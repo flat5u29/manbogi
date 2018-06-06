@@ -39,7 +39,7 @@ public class Data extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                dbHelper.delete();
+                dbHelper.delete(getTime);
 
                 textView.setText(dbHelper.getResult());
 
