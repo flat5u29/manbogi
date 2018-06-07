@@ -197,7 +197,8 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        int cost = data.getIntExtra("coin", 0);
+        int cost = data.getIntExtra("cost", 0);
+        coin=coin-cost;
         cointxt.setText("코인 : " + coin);
         Log.i("MyTag", coin + "");
     }

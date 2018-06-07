@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cointxt"
-        android:src="@drawable/dog" />
+       android:src="@drawable/dog" />
 
     <ImageView
         android:id="@+id/imageView2"
