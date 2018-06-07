@@ -192,6 +192,7 @@ public class MainActivity extends Activity {
 
     } // end of OnCreate
 
+    //상점에서 산 물건 값 가져온 후 코인에서 빼기
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -201,6 +202,7 @@ public class MainActivity extends Activity {
         Log.i("MyTag", coin + "");
     }
 
+    //서비스에서 보내는 값가져와서 걸음수에 더해주기
     class PlayingReceiver extends BroadcastReceiver {
 
         @Override
@@ -212,6 +214,7 @@ public class MainActivity extends Activity {
         }
     }
 
+    //앱이 일시정지되면 프리퍼런스에 현재 텍스트뷰들의 값 저장
     public void onPause() {
         super.onPause();
 
@@ -227,6 +230,7 @@ public class MainActivity extends Activity {
         myEditor.commit();
     }
 
+    //백버튼누르면 "한 번 더 누르면 종료됩니다"토스트 뜨게 하기
     public void onBackPressed() {
 
 
