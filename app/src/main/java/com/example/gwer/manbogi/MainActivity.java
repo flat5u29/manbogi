@@ -196,10 +196,8 @@ public class MainActivity extends Activity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        int cost = data.getIntExtra("cost", 0);
-        coin = coin - cost;
+        int cost = data.getIntExtra("coin", 0);
         cointxt.setText("코인 : " + coin);
-        Toast.makeText(getApplicationContext(), "구매되었습니다. 남은 코인 : " +coin, Toast.LENGTH_SHORT).show();
         Log.i("MyTag", coin+"");
     }
 

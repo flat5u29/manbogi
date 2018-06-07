@@ -62,7 +62,9 @@ public class Store extends AppCompatActivity {
 
                 Intent intent =getIntent();
                 if(MainActivity.coin >= cost){
-                    intent.putExtra("cost", cost);
+                    MainActivity.coin = MainActivity.coin - cost;
+                    intent.putExtra("coin", MainActivity.coin);
+                    Toast.makeText(getApplicationContext(), "구매되었습니다. 남은 코인 : " +MainActivity.coin, Toast.LENGTH_SHORT).show();
                 } else {
                     Toast.makeText(getApplicationContext(), "코인이 부족합니다.", Toast.LENGTH_SHORT).show();
                 }
