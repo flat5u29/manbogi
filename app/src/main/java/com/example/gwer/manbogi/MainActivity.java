@@ -45,6 +45,7 @@ public class MainActivity extends Activity {
     Date dat;
     SimpleDateFormat sdf;
     String getTime;
+    DBHelper dbHelper;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,7 +55,7 @@ public class MainActivity extends Activity {
         sdf = new SimpleDateFormat("yyyyMMdd");
         getTime = sdf.format(dat);
 
-        final DBHelper dbHelper
+        DBHelper dbHelper
                 = new DBHelper(getApplicationContext(), "MANBORECORD.db", null, 1);
         totalStepCount = dbHelper.stepCount(getTime);
 
@@ -77,13 +78,12 @@ public class MainActivity extends Activity {
         SharedPreferences pref = getSharedPreferences("pre", 0);
         SharedPreferences.Editor myEditor = pref.edit();
 
-        coin=pref.getInt("coinCount",0);
+        coin = pref.getInt("coinCount", 0);
         String prefCoin = pref.getString("CoinText", "코인 : " + coin);
         String prefStep = pref.getString("StepText", "걸음 : " + stepCount);
 
         cointxt.setText(prefCoin);
         countText.setText(prefStep);
-
 
         // 프레퍼런스로 얻어온 문자열의 숫자부분 추출
         String pCoin = prefCoin.substring(5);
@@ -125,14 +125,7 @@ public class MainActivity extends Activity {
 
                             case R.id.menu4: // 통계
 
-                                if (!getTime.equals(dbHelper.select(getTime))) {
-                                    dbHelper.insert(getTime, totalStepCount, coin);
-
-                                } else {
-
-                                    dbHelper.update(getTime, totalStepCount, coin);
-
-                                }
+                                checkDBData();
 
                                 intent = new Intent(MainActivity.this, Data.class);
                                 startActivityForResult(intent, 2);
@@ -248,10 +241,9 @@ public class MainActivity extends Activity {
 
         myEditor.putString("CoinText", coinText);
         myEditor.putString("StepText", stepText);
-        myEditor.putInt("coinCount",coin);
+        myEditor.putInt("coinCount", coin);
 
         myEditor.commit();
-
     }
 
     //백버튼누르면 "한 번 더 누르면 종료됩니다"토스트 뜨게 하기
@@ -264,9 +256,22 @@ public class MainActivity extends Activity {
             return;
         }
         if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            checkDBData();
             finish();
         }
 //  super.onBackPressed();
+    }
+
+    //오늘 날짜 데이터 있는지
+    public void checkDBData() {
+        if (!getTime.equals(dbHelper.select(getTime))) {
+            dbHelper.insert(getTime, totalStepCount, coin);
+
+        } else {
+
+            dbHelper.update(getTime, totalStepCount, coin);
+
+        }
     }
 
 }
