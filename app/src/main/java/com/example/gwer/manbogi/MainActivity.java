@@ -112,7 +112,7 @@ public class MainActivity extends Activity {
                             case R.id.menu5: // 옵션
                                 break;
                         }
-                        startActivity(intent);
+                        startActivityForResult(intent, 0);
                         return true;
                     }
                 });
@@ -190,6 +190,17 @@ public class MainActivity extends Activity {
             }
         });
 
+    } // end of OnCreate
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        int cost = data.getIntExtra("cost", 0);
+        coin = coin - cost;
+        cointxt.setText("코인 : " + coin);
+        Toast.makeText(getApplicationContext(), "구매되었습니다. 남은 코인 : " +coin, Toast.LENGTH_SHORT).show();
+        Log.i("MyTag", coin+"");
     }
 
     class PlayingReceiver extends BroadcastReceiver {
@@ -199,7 +210,6 @@ public class MainActivity extends Activity {
             totalStepCount += intent.getIntExtra("stepService", 0);
             stepCount += intent.getIntExtra("stepService", 0);
             countText.setText("걸음 : " + stepCount);
-
 
         }
     }
