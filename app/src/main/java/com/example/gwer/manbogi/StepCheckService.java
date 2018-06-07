@@ -40,7 +40,7 @@ public class StepCheckService extends Service implements SensorEventListener {
             sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_GAME);
         } // end of if
 
-        return START_STICKY;
+        return START_REDELIVER_INTENT;
     } // end of onStartCommand
 
     @Override

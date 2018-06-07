@@ -2,6 +2,7 @@ package com.example.gwer.manbogi;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.SharedPreferences;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
@@ -57,11 +58,19 @@ public class MainActivity extends Activity {
         exchange = (Button) findViewById(R.id.exchange);
         menu = (Button) findViewById(R.id.menu);
 
-        cointxt.setText("코인 : "+coin);
+        // 프레퍼런스(앱을 종료했다가 실행해도 데이터가 남아있음)
+        SharedPreferences pref = getSharedPreferences("pre", 0);
+        SharedPreferences.Editor myEditor = pref.edit();
+
+        String prefCoin = pref.getString("Coin", "코인 : "+coin);
+        String prefStep = pref.getString("Step", "걸음 : "+stepCount);
+
+        cointxt.setText(prefCoin);
+        countText.setText(prefStep);
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(final View v) {
                 PopupMenu popupMenu = new PopupMenu(getApplicationContext(), v);
                 MenuInflater inflater = popupMenu.getMenuInflater();
                 inflater.inflate(R.menu.menu1, popupMenu.getMenu());
@@ -90,7 +99,23 @@ public class MainActivity extends Activity {
                                 intent = new Intent(MainActivity.this, Data.class);
                                 break;
 
-                            case R.id.menu5: // 옵션
+                            case R.id.menu5: // 옵션메뉴 (사운드, 만보기설정, 이름변경? etc
+                                PopupMenu popupMenu1 = new PopupMenu(getApplicationContext(), v);
+                                MenuInflater inflater1 = popupMenu1.getMenuInflater();
+                                inflater1.inflate(R.menu.menu2, popupMenu1.getMenu());
+                                popupMenu1.show();
+                                popupMenu1.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                                    @Override
+                                    public boolean onMenuItemClick(MenuItem item) {
+                                        switch (item.getItemId()){
+                                            case R.id.optionManbogi :
+                                                break;
+                                            case R.id.optionSound :
+                                                break;
+                                        }
+                                        return false;
+                                    }
+                                });
                                 break;
                         }
                         startActivity(intent);
@@ -162,7 +187,7 @@ public class MainActivity extends Activity {
                 String getTime = sdf.format(dat);
 
 
-                dbHelper.update(getTime, stepCount, coin);
+                dbHelper.insert(getTime, stepCount, coin);
 
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
@@ -182,6 +207,21 @@ public class MainActivity extends Activity {
 
 
         }
+    }
+
+    public void onPause(){
+        super.onPause();
+
+        SharedPreferences pref = getSharedPreferences("pre", 0);
+        SharedPreferences.Editor myEditor = pref.edit();
+
+        String coin = cointxt.getText().toString();
+        String step = countText.getText().toString();
+
+        myEditor.putString("Coin", coin);
+        myEditor.putString("Step", step);
+
+        myEditor.commit();
     }
 
 }
