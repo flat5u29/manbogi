@@ -15,7 +15,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/wall" />
+        android:src="@drawable/wall" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -27,7 +27,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cointxt"
-        app:srcCompat="@drawable/dog" />
+        android:src="@drawable/dog" />
 
     <ImageView
         android:id="@+id/imageView2"
@@ -37,7 +37,7 @@
         android:visibility="visible"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/tag" />
+        android:src="@drawable/tag" />
 
     <TextView
         android:id="@+id/cointxt"
