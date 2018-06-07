@@ -39,6 +39,7 @@ public class MainActivity extends Activity {
     Button stopBtn, exchange, menu;
 
     static int stepCount, coin, totalStepCount;
+    static int hunger, dirty, boring, love;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,9 +69,10 @@ public class MainActivity extends Activity {
         cointxt.setText(prefCoin);
         countText.setText(prefStep);
 
+        // 프레퍼런스로 얻어온 문자열의 숫자부분 추출
         String pCoin = prefCoin.substring(5);
         String pStep = prefStep.substring(5);
-
+        // 숫자가 0이 아니면 얻어온 숫자를 변수에 대입
         if(Integer.parseInt(pCoin) != 0 && Integer.parseInt(pStep) != 0){
             stepCount = Integer.parseInt(pStep);
             coin = Integer.parseInt(pCoin);
@@ -110,7 +112,7 @@ public class MainActivity extends Activity {
                             case R.id.menu5: // 옵션
                                 break;
                         }
-                        startActivity(intent);
+                        startActivityForResult(intent, 0);
                         return true;
                     }
                 });
@@ -170,6 +172,7 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 sp.play(exchangeSound, 1,1,0,0,1f);
+
                 coin = coin + stepCount;
 
                 long now = System.currentTimeMillis();
@@ -187,6 +190,15 @@ public class MainActivity extends Activity {
             }
         });
 
+    } // end of OnCreate
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        int cost = data.getIntExtra("coin", 0);
+        cointxt.setText("코인 : " + coin);
+        Log.i("MyTag", coin+"");
     }
 
     class PlayingReceiver extends BroadcastReceiver {
@@ -196,7 +208,6 @@ public class MainActivity extends Activity {
             totalStepCount += intent.getIntExtra("stepService", 0);
             stepCount += intent.getIntExtra("stepService", 0);
             countText.setText("걸음 : " + stepCount);
-
 
         }
     }
