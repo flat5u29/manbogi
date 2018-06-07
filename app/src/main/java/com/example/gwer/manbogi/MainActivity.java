@@ -58,6 +58,10 @@ public class MainActivity extends Activity {
                 = new DBHelper(getApplicationContext(), "MANBORECORD.db", null, 1);
         totalStepCount = dbHelper.stepCount(getTime);
 
+
+        /*coin=dbHelper.selectcoin();
+        cointxt.setText("코인 : "+coin);
+*/
         final SoundPool sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         manboService = new Intent(this, StepCheckService.class);
@@ -73,11 +77,13 @@ public class MainActivity extends Activity {
         SharedPreferences pref = getSharedPreferences("pre", 0);
         SharedPreferences.Editor myEditor = pref.edit();
 
-        String prefCoin = pref.getString("Coin", "코인 : " + coin);
-        String prefStep = pref.getString("Step", "걸음 : " + stepCount);
+        coin=pref.getInt("coinCount",0);
+        String prefCoin = pref.getString("CoinText", "코인 : " + coin);
+        String prefStep = pref.getString("StepText", "걸음 : " + stepCount);
 
         cointxt.setText(prefCoin);
         countText.setText(prefStep);
+
 
         // 프레퍼런스로 얻어온 문자열의 숫자부분 추출
         String pCoin = prefCoin.substring(5);
@@ -118,6 +124,16 @@ public class MainActivity extends Activity {
                                 break;
 
                             case R.id.menu4: // 통계
+
+                                if (!getTime.equals(dbHelper.select(getTime))) {
+                                    dbHelper.insert(getTime, totalStepCount, coin);
+
+                                } else {
+
+                                    dbHelper.update(getTime, totalStepCount, coin);
+
+                                }
+
                                 intent = new Intent(MainActivity.this, Data.class);
                                 startActivityForResult(intent, 2);
                                 break;
@@ -186,15 +202,6 @@ public class MainActivity extends Activity {
                 coin = coin + stepCount;
 
 
-                if (!getTime.equals(dbHelper.select(getTime))) {
-                    dbHelper.insert(getTime, totalStepCount, coin);
-
-                } else {
-
-                    dbHelper.update(getTime, totalStepCount, coin);
-
-                }
-
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
                 countText.setText("걸음 : " + stepCount);
@@ -236,11 +243,12 @@ public class MainActivity extends Activity {
         SharedPreferences pref = getSharedPreferences("pre", 0);
         SharedPreferences.Editor myEditor = pref.edit();
 
-        String coin = cointxt.getText().toString();
-        String step = countText.getText().toString();
+        String coinText = cointxt.getText().toString();
+        String stepText = countText.getText().toString();
 
-        myEditor.putString("Coin", coin);
-        myEditor.putString("Step", step);
+        myEditor.putString("CoinText", coinText);
+        myEditor.putString("StepText", stepText);
+        myEditor.putInt("coinCount",coin);
 
         myEditor.commit();
 

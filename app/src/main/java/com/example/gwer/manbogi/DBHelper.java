@@ -73,7 +73,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 
         // 데이터베이스에서 마지막 아이디(_id의 최대값) 코인의 정보를 검색하는 메소드
-        public int selectcoin(String days) {
+        public int selectcoin() {
             SQLiteDatabase db = getReadableDatabase();
             int result = 0;
 
