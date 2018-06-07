@@ -33,6 +33,7 @@ public class MainActivity extends Activity {
 
     Intent manboService;
     BroadcastReceiver receiver;
+    private long backKeyPressedTime = 0;
 
     boolean flag = true;
     TextView countText, cointxt;
@@ -63,8 +64,8 @@ public class MainActivity extends Activity {
         SharedPreferences pref = getSharedPreferences("pre", 0);
         SharedPreferences.Editor myEditor = pref.edit();
 
-        String prefCoin = pref.getString("Coin", "코인 : "+coin);
-        String prefStep = pref.getString("Step", "걸음 : "+stepCount);
+        String prefCoin = pref.getString("Coin", "코인 : " + coin);
+        String prefStep = pref.getString("Step", "걸음 : " + stepCount);
 
         cointxt.setText(prefCoin);
         countText.setText(prefStep);
@@ -73,11 +74,12 @@ public class MainActivity extends Activity {
         String pCoin = prefCoin.substring(5);
         String pStep = prefStep.substring(5);
         // 숫자가 0이 아니면 얻어온 숫자를 변수에 대입
-        if(Integer.parseInt(pCoin) != 0 && Integer.parseInt(pStep) != 0){
+        if (Integer.parseInt(pCoin) != 0 && Integer.parseInt(pStep) != 0) {
             stepCount = Integer.parseInt(pStep);
             coin = Integer.parseInt(pCoin);
         }
 
+        //메뉴버튼 클릭리스너
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -141,16 +143,14 @@ public class MainActivity extends Activity {
                 try {
 
 
-
                     stopService(manboService);
-                    if(!countText.getText().equals("걸음 : 0")){ //걸음수 0이 아닐 때
-                        AlertDialog.Builder builder=new AlertDialog.Builder(MainActivity.this);
+                    if (!countText.getText().equals("걸음 : 0")) { //걸음수 0이 아닐 때
+                        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                         builder.setMessage("환전하지 않은 걸음이 있습니다.");
                         builder.setTitle("알림");
-                        builder.setPositiveButton("확인",null);
+                        builder.setPositiveButton("확인", null);
                         builder.show();
-                    }
-                    else
+                    } else
                         unregisterReceiver(receiver);
 
                     // txtMsg.setText("After stoping Service:\n"+service.getClassName());
@@ -171,7 +171,7 @@ public class MainActivity extends Activity {
         exchange.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                sp.play(exchangeSound, 1,1,0,0,1f);
+                sp.play(exchangeSound, 1, 1, 0, 0, 1f);
 
                 coin = coin + stepCount;
 
@@ -192,15 +192,17 @@ public class MainActivity extends Activity {
 
     } // end of OnCreate
 
+    //상점에서 산 물건 값 가져온 후 코인에서 빼기
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
         int cost = data.getIntExtra("coin", 0);
         cointxt.setText("코인 : " + coin);
-        Log.i("MyTag", coin+"");
+        Log.i("MyTag", coin + "");
     }
 
+    //서비스에서 보내는 값가져와서 걸음수에 더해주기
     class PlayingReceiver extends BroadcastReceiver {
 
         @Override
@@ -212,7 +214,8 @@ public class MainActivity extends Activity {
         }
     }
 
-    public void onPause(){
+    //앱이 일시정지되면 프리퍼런스에 현재 텍스트뷰들의 값 저장
+    public void onPause() {
         super.onPause();
 
         SharedPreferences pref = getSharedPreferences("pre", 0);
@@ -225,6 +228,21 @@ public class MainActivity extends Activity {
         myEditor.putString("Step", step);
 
         myEditor.commit();
+    }
+
+    //백버튼누르면 "한 번 더 누르면 종료됩니다"토스트 뜨게 하기
+    public void onBackPressed() {
+
+
+        if (System.currentTimeMillis() > backKeyPressedTime + 2000) {
+            backKeyPressedTime = System.currentTimeMillis();
+            Toast.makeText(getApplicationContext(), "한 번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (System.currentTimeMillis() <= backKeyPressedTime + 2000) {
+            finish();
+        }
+//  super.onBackPressed();
     }
 
 }
