@@ -41,13 +41,22 @@ public class MainActivity extends Activity {
 
     static int stepCount, coin, totalStepCount;
     static int hunger, dirty, boring, love;
+    long now;
+    Date dat;
+    SimpleDateFormat sdf;
+    String getTime;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        now = System.currentTimeMillis();
+        dat = new Date(now);
+        sdf = new SimpleDateFormat("yyyyMMdd");
+        getTime = sdf.format(dat);
 
         final DBHelper dbHelper
                 = new DBHelper(getApplicationContext(), "MANBORECORD.db", null, 1);
+        totalStepCount = dbHelper.stepCount(getTime);
 
         final SoundPool sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
@@ -176,14 +185,15 @@ public class MainActivity extends Activity {
 
                 coin = coin + stepCount;
 
-                long now = System.currentTimeMillis();
 
-                Date dat = new Date(now);
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-                String getTime = sdf.format(dat);
+                if (!getTime.equals(dbHelper.select(getTime))) {
+                    dbHelper.insert(getTime, totalStepCount, coin);
 
+                } else {
 
-                dbHelper.insert(getTime, stepCount, coin);
+                    dbHelper.update(getTime, totalStepCount, coin);
+
+                }
 
                 stepCount = 0;
                 cointxt.setText("코인 : " + coin);
@@ -233,6 +243,7 @@ public class MainActivity extends Activity {
         myEditor.putString("Step", step);
 
         myEditor.commit();
+
     }
 
     //백버튼누르면 "한 번 더 누르면 종료됩니다"토스트 뜨게 하기
