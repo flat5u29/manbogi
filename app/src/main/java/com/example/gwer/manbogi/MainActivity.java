@@ -55,7 +55,7 @@ public class MainActivity extends Activity {
         sdf = new SimpleDateFormat("yyyyMMdd");
         getTime = sdf.format(dat);
 
-        DBHelper dbHelper
+        dbHelper
                 = new DBHelper(getApplicationContext(), "MANBORECORD.db", null, 1);
         totalStepCount = dbHelper.stepCount(getTime);
 
