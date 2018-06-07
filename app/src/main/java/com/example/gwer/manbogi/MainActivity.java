@@ -68,6 +68,14 @@ public class MainActivity extends Activity {
         cointxt.setText(prefCoin);
         countText.setText(prefStep);
 
+        String pCoin = prefCoin.substring(5);
+        String pStep = prefStep.substring(5);
+
+        if(Integer.parseInt(pCoin) != 0 && Integer.parseInt(pStep) != 0){
+            stepCount = Integer.parseInt(pStep);
+            coin = Integer.parseInt(pCoin);
+        }
+
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
