@@ -200,7 +200,7 @@ public class MainActivity extends Activity {
         int cost = data.getIntExtra("cost", 0);
         coin=coin-cost;
         cointxt.setText("코인 : " + coin);
-        Log.i("MyTag", coin + "");
+
     }
 
     //서비스에서 보내는 값가져와서 걸음수에 더해주기
