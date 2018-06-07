@@ -1,5 +1,6 @@
 package com.example.gwer.manbogi;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -49,5 +50,10 @@ public class Data extends AppCompatActivity {
 
     }
 
-
+    @Override
+    public void onBackPressed() {
+        Intent intent=getIntent();
+        setResult(1,intent);
+        finish();
+    }
 }

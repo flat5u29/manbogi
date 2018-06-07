@@ -105,16 +105,17 @@ public class MainActivity extends Activity {
 
                             case R.id.menu3: // 상점
                                 intent = new Intent(MainActivity.this, Store.class);
+                                startActivityForResult(intent, 1);
                                 break;
 
                             case R.id.menu4: // 통계
                                 intent = new Intent(MainActivity.this, Data.class);
+                                startActivityForResult(intent, 2);
                                 break;
 
                             case R.id.menu5: // 옵션
                                 break;
                         }
-                        startActivityForResult(intent, 0);
                         return true;
                     }
                 });
@@ -192,14 +193,17 @@ public class MainActivity extends Activity {
 
     } // end of OnCreate
 
-    //상점에서 산 물건 값 가져온 후 코인에서 빼기
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        int cost = data.getIntExtra("cost", 0);
-        coin=coin-cost;
-        cointxt.setText("코인 : " + coin);
+        //상점에서 산 물건 값 가져온 후 코인에서 빼기
+        if (requestCode == 1) { //requestCode가 1이면 상점에서 돌아온 것.
+            int cost = data.getIntExtra("cost", 0);
+            coin = coin - cost;
+            cointxt.setText("코인 : " + coin);
+        }
 
     }
 
