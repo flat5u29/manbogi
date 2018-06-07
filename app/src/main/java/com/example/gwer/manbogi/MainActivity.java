@@ -70,7 +70,7 @@ public class MainActivity extends Activity {
 
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(final View v) {
+            public void onClick(View v) {
                 PopupMenu popupMenu = new PopupMenu(getApplicationContext(), v);
                 MenuInflater inflater = popupMenu.getMenuInflater();
                 inflater.inflate(R.menu.menu1, popupMenu.getMenu());
@@ -99,23 +99,7 @@ public class MainActivity extends Activity {
                                 intent = new Intent(MainActivity.this, Data.class);
                                 break;
 
-                            case R.id.menu5: // 옵션메뉴 (사운드, 만보기설정, 이름변경? etc
-                                PopupMenu popupMenu1 = new PopupMenu(getApplicationContext(), v);
-                                MenuInflater inflater1 = popupMenu1.getMenuInflater();
-                                inflater1.inflate(R.menu.menu2, popupMenu1.getMenu());
-                                popupMenu1.show();
-                                popupMenu1.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                                    @Override
-                                    public boolean onMenuItemClick(MenuItem item) {
-                                        switch (item.getItemId()){
-                                            case R.id.optionManbogi :
-                                                break;
-                                            case R.id.optionSound :
-                                                break;
-                                        }
-                                        return false;
-                                    }
-                                });
+                            case R.id.menu5: // 옵션
                                 break;
                         }
                         startActivity(intent);
