@@ -73,7 +73,6 @@ public class StepCheckService extends Service implements SensorEventListener {
 
                     stepCount+=1;
                     myFilteredResponse.putExtra("stepService", stepCount);
-                    Log.i("MyTag","service : "+stepCount);
 
                     sendBroadcast(myFilteredResponse);
                 } // end of if
