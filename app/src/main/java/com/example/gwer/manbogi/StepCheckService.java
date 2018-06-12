@@ -23,6 +23,8 @@ public class StepCheckService extends Service implements SensorEventListener {
     private float x, y, z;
     private static final int SHAKE_THRESHOLD = 1000;
 
+    static int stepCount=0;
+
     private SensorManager sensorManager;
     private Sensor accelerometerSensor;
 
@@ -69,7 +71,9 @@ public class StepCheckService extends Service implements SensorEventListener {
                 if (speed > SHAKE_THRESHOLD) {
                     Intent myFilteredResponse = new Intent("com.example.manbogi");
 
-                    myFilteredResponse.putExtra("stepService", 1);
+                    stepCount+=1;
+                    myFilteredResponse.putExtra("stepService", stepCount);
+                    Log.i("MyTag","service : "+stepCount);
 
                     sendBroadcast(myFilteredResponse);
                 } // end of if

@@ -3,6 +3,7 @@ package com.example.gwer.manbogi;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.SharedPreferences;
+import android.content.res.AssetManager;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.support.v7.app.AppCompatActivity;
@@ -25,12 +26,13 @@ import android.widget.Toast;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
 public class MainActivity extends Activity {
-
+    public static final String ROOT_DIR = "/data/data/com.example.gwer.manbogi/databases";
     Intent manboService;
     BroadcastReceiver receiver;
     private long backKeyPressedTime = 0;
@@ -39,7 +41,9 @@ public class MainActivity extends Activity {
     TextView countText, cointxt;
     Button stopBtn, exchange, menu;
 
-    static int stepCount, coin, totalStepCount;
+    static int stepCount; //환전하기 전 걸음수
+    static int totalStepCount; //오늘의 총걸음수
+    static int coin;
     static int hunger, dirty, boring, love;
     long now;
     Date dat;
@@ -50,6 +54,15 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        cointxt = (TextView) findViewById(R.id.cointxt);
+        countText = (TextView) findViewById(R.id.steptxt);
+        stopBtn = (Button) findViewById(R.id.btnStopService);
+        exchange = (Button) findViewById(R.id.exchange);
+        menu = (Button) findViewById(R.id.menu);
+        setDB(this);
+
+
         now = System.currentTimeMillis();
         dat = new Date(now);
         sdf = new SimpleDateFormat("yyyyMMdd");
@@ -59,40 +72,22 @@ public class MainActivity extends Activity {
                 = new DBHelper(getApplicationContext(), "MANBORECORD.db", null, 1);
         totalStepCount = dbHelper.stepCount(getTime);
 
+        stepCount=StepCheckService.stepCount;
+        countText.setText("걸음 : "+stepCount);
 
-        /*coin=dbHelper.selectcoin();
-        cointxt.setText("코인 : "+coin);
-*/
         final SoundPool sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
         manboService = new Intent(this, StepCheckService.class);
         receiver = new PlayingReceiver();
 
-        cointxt = (TextView) findViewById(R.id.cointxt);
-        countText = (TextView) findViewById(R.id.steptxt);
-        stopBtn = (Button) findViewById(R.id.btnStopService);
-        exchange = (Button) findViewById(R.id.exchange);
-        menu = (Button) findViewById(R.id.menu);
 
         // 프레퍼런스(앱을 종료했다가 실행해도 데이터가 남아있음)
         SharedPreferences pref = getSharedPreferences("pre", 0);
         SharedPreferences.Editor myEditor = pref.edit();
 
         coin = pref.getInt("coinCount", 0);
-        String prefCoin = pref.getString("CoinText", "코인 : " + coin);
-        String prefStep = pref.getString("StepText", "걸음 : " + stepCount);
+        cointxt.setText("코인 : "+coin);
 
-        cointxt.setText(prefCoin);
-        countText.setText(prefStep);
-
-        // 프레퍼런스로 얻어온 문자열의 숫자부분 추출
-        String pCoin = prefCoin.substring(5);
-        String pStep = prefStep.substring(5);
-        // 숫자가 0이 아니면 얻어온 숫자를 변수에 대입
-        if (Integer.parseInt(pCoin) != 0 && Integer.parseInt(pStep) != 0) {
-            stepCount = Integer.parseInt(pStep);
-            coin = Integer.parseInt(pCoin);
-        }
 
         //메뉴버튼 클릭리스너
         menu.setOnClickListener(new View.OnClickListener() {
@@ -222,9 +217,10 @@ public class MainActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            totalStepCount += intent.getIntExtra("stepService", 0);
-            stepCount += intent.getIntExtra("stepService", 0);
+//            totalStepCount += intent.getIntExtra("stepService", 0);
+            stepCount = intent.getIntExtra("stepService", 0);
             countText.setText("걸음 : " + stepCount);
+            Log.i("MyTag", "MainActivity: " + stepCount);
 
         }
     }
@@ -235,12 +231,6 @@ public class MainActivity extends Activity {
 
         SharedPreferences pref = getSharedPreferences("pre", 0);
         SharedPreferences.Editor myEditor = pref.edit();
-
-        String coinText = cointxt.getText().toString();
-        String stepText = countText.getText().toString();
-
-        myEditor.putString("CoinText", coinText);
-        myEditor.putString("StepText", stepText);
         myEditor.putInt("coinCount", coin);
 
         myEditor.commit();
@@ -271,6 +261,35 @@ public class MainActivity extends Activity {
 
             dbHelper.update(getTime, totalStepCount, coin);
 
+        }
+    }
+
+    //빈 데이터베이스 생성 후 assets폴더에 있는 DB를 복사해서 빈 데이터베이스에 붙여넣기
+    public static void setDB(Context ctx) {
+        File folder = new File(ROOT_DIR);
+        if (folder.exists()) {
+        } else {
+            folder.mkdirs();
+        }
+        AssetManager assetManager = ctx.getResources().getAssets();
+        File outfile = new File(ROOT_DIR + "ManbogiDB.sqlite");
+        InputStream is = null;
+        FileOutputStream fo = null;
+        long filesize = 0;
+        try {
+            is = assetManager.open("ManbogiDB.sqlite", AssetManager.ACCESS_BUFFER);
+            filesize = is.available();
+            if (outfile.length() <= 0) {
+                byte[] tempdata = new byte[(int) filesize];
+                is.read(tempdata);
+                is.close();
+                outfile.createNewFile();
+                fo = new FileOutputStream(outfile);
+                fo.write(tempdata);
+                fo.close();
+            } else {
+            }
+        } catch (IOException e) {
         }
     }
 
