@@ -189,9 +189,8 @@ public class MainActivity extends Activity {
                 sp.play(exchangeSound, 1, 1, 0, 0, 1f);
 
                 coin = coin + stepCount;
-
-
                 stepCount = 0;
+                StepCheckService.stepCount=0;
                 cointxt.setText("코인 : " + coin);
                 countText.setText("걸음 : " + stepCount);
             }
