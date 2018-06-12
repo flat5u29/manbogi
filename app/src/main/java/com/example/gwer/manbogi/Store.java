@@ -20,11 +20,17 @@ public class Store extends AppCompatActivity {
     Button btn30, btn60, btn90, buy;
     TextView totalCost;
 
+    LinearLayout itemLayout;
+
+    Button[] items;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_store);
 
+        itemLayout = (LinearLayout)findViewById(R.id.itemLayout);
 
         btn30 = (Button) findViewById(R.id.btn30);
         btn60 = (Button) findViewById(R.id.btn60);

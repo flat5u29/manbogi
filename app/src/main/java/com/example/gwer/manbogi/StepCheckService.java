@@ -21,7 +21,7 @@ public class StepCheckService extends Service implements SensorEventListener {
     private float lastZ;
 
     private float x, y, z;
-    private static final int SHAKE_THRESHOLD = 1000;
+    private static final int SHAKE_THRESHOLD = 1100;
 
     static int stepCount=0;
 

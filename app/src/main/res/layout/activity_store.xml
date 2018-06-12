@@ -33,9 +33,40 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
+            android:id="@+id/itemLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/item01"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="16dp"
+                tools:layout_editor_absoluteY="104dp">
+
+                <ImageView
+                    android:id="@+id/imageView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3"
+                    app:srcCompat="@mipmap/ic_launcher_round" />
+
+                <TextView
+                    android:id="@+id/textView2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="10"
+                    android:text="TextView" />
+
+                <Button
+                    android:id="@+id/button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="선택" />
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -46,17 +77,19 @@
                     android:id="@+id/btn30"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="상품1"/>
+                    android:text="상품1" />
+
                 <Button
                     android:id="@+id/btn60"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="상품2"/>
+                    android:text="상품2" />
+
                 <Button
                     android:id="@+id/btn90"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="상품3"/>
+                    android:text="상품3" />
 
             </LinearLayout>
 

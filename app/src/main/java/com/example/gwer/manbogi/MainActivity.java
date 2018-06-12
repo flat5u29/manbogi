@@ -72,6 +72,8 @@ public class MainActivity extends Activity {
                 = new DBHelper(getApplicationContext(), "MANBORECORD.db", null, 1);
         totalStepCount = dbHelper.stepCount(getTime);
 
+        stepCount=StepCheckService.stepCount;
+        countText.setText("걸음 : "+stepCount);
 
         final SoundPool sp = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
@@ -85,9 +87,9 @@ public class MainActivity extends Activity {
         // 프레퍼런스(앱을 종료했다가 실행해도 데이터가 남아있음)
         SharedPreferences pref = getSharedPreferences("pre", 0);
         SharedPreferences.Editor myEditor = pref.edit();
-        //프레퍼런스에 저장됐던 코인을 가져와서 텍스트뷰에 붙여주기
+
         coin = pref.getInt("coinCount", 0);
-        cointxt.setText("코인 : " + coin);
+        cointxt.setText("코인 : "+coin);
 
 
         //메뉴버튼 클릭리스너
@@ -189,6 +191,8 @@ public class MainActivity extends Activity {
                 sp.play(exchangeSound, 1, 1, 0, 0, 1f);
 
                 coin = coin + stepCount;
+
+
                 stepCount = 0;
                 StepCheckService.stepCount=0;
                 cointxt.setText("코인 : " + coin);
@@ -217,7 +221,7 @@ public class MainActivity extends Activity {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-//            totalStepCount += intent.getIntExtra("stepService", 0);
+            totalStepCount = totalStepCount+1;
             stepCount = intent.getIntExtra("stepService", 0);
             countText.setText("걸음 : " + stepCount);
 
